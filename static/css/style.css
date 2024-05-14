@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+
+.css-selector {
+    background: linear-gradient(244deg, #032b2ae6, #08979c, #032b2a); 
+    background-size: 600% 600%;
+    -webkit-animation: gradientBkg 9s ease infinite;
+    animation: gradientBkg 9s ease infinite;
+}
+
+@-webkit-keyframes gradientBkg {
+    0%{background-position:0% 70%}
+    50%{background-position:100% 31%}
+    100%{background-position:0% 70%}
+}
+@keyframes gradientBkg {
+    0%{background-position:0% 70%}
+    50%{background-position:100% 31%}
+    100%{background-position:0% 70%}
+}
+
+
+/* defining a new CSS class to update background for when processed video is displayed */
+.black-background {
+    /* !important ensures it overrides the gradient background */
+    background: black !important;  
+    animation: none !important;
+}
+
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#spinner {
+    margin-top: 20px;
+}
+
+#uploadBtn {
+    background-color: #6c6b6c1e; /* Button color */
+    color: white; /* Text color */
+    padding: 10px 15px; /* Button padding */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change mouse cursor on hover */
+    font-size: 16px; /* Text size */
+}
+
+#uploadBtn:hover {
+    background-color: #031b471f; /* Darker shade for hover effect */
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 10px solid;
+    border-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.25) rgba(255, 255, 255, 0.35) rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 

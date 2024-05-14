@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video/Image Background Removal</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="css-selector">
+    <button id="uploadBtn">Upload Video</button>
+    <input type="file" id="videoInput" accept="video/*" style="display: none;">
+    <div id="spinner" style="display: none;">Loading...</div>    
+    <span class="loader" style="display: none;"></span>
+
+    <video id="processedVideo" controls style="display: none; width: 100%; max-width: 600px; margin-top: 20px;"></video>
+    <script src="/static/js/script.js"></script> 
+</body>
+</html>
