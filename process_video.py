@@ -233,7 +233,6 @@ def video_inference_with_backgroundremoval(model_name: str, input_video_path: st
     if duration > 7:
         secondary_path = intermediate_output_path + ".tmp" #temporary for fade-in processing
         fade_in_effect(intermediate_output_path, secondary_path, 4)
-        #fade_out_effect(intermediate_output_path, intermediate_output_path, 2)
         shutil.move(secondary_path, intermediate_output_path)
 
     # Add original audio to the processed video and re-encode

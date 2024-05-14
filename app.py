@@ -4,8 +4,7 @@ from werkzeug.utils import secure_filename
 from process_video import video_inference_with_backgroundremoval, resize_frame, remove_background, load_model
 from flask_cors import CORS
 
-
-app = Flask(__name__) #initializing a new Flask application
+app = Flask(__name__) 
 CORS(app) #applying CORS setting to the Flask application, making it accesible from any domain
 
 UPLOAD_FOLDER = 'uploads/'
@@ -25,7 +24,7 @@ app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
 
 @app.route('/')
 def home():
-    return render_template('index.html') #check if this is correctly referencin htm content, do i need to add this to the other app routes?
+    return render_template('index.html')
 
 #These variables define the directories where uploaded files are stored and where processed files will be saved, respectively.
 
@@ -50,7 +49,7 @@ def upload_file(): #handles upload and processing of files
         processed_filename = "processed_" + filename
         final_output_path = os.path.join(app.config['PROCESSED_FOLDER'], processed_filename)  # This remains the same as your original processed_filepath
 
-        try: #research what "try:" does
+        try: 
             video_inference_with_backgroundremoval("mobilenet", filepath, intermediate_output_path, final_output_path)
             #Assuming the processing was succesful, construct the URL for the processed video
             processed_video_url = request.url_root + '/processed/'+ processed_filename
@@ -61,7 +60,6 @@ def upload_file(): #handles upload and processing of files
             return jsonify({'error': 'Failed to process video', 'details': str(e)}), 500
     else:
         return jsonify({'error': 'File not allowed'}), 400
-#return send_from_directory(app.config['PROCESSED_FOLDER'], "processed_" + filename)
 
 #routes dynamically serve the requested files from their respective directories
 
@@ -70,8 +68,8 @@ def upload_file(): #handles upload and processing of files
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-#send_from_directort function used to serve files frim both the uploads and processed directories through sepratae routes
-@app.route('/processed/<filename>') # might not need to include the static file
+#send_from_directory function used to serve files frim both the uploads and processed directories through sepratae routes
+@app.route('/processed/<filename>')
 def processed_file(filename):
     return send_from_directory(app.config['PROCESSED_FOLDER'], filename)
 
