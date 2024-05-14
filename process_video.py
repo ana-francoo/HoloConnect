@@ -21,12 +21,8 @@ from torchvision.models.segmentation import (
 
 
 def load_model(model_name: str):
-    if model_name.lower() not in ("mobilenet", "smallmobilenet"):
-        raise ValueError("'model_name' should be one of ('mobilenet', 'resnet_50', 'resnet_101')")
-
-    else:
-        model = deeplabv3_mobilenet_v3_large(weights=DeepLabV3_MobileNet_V3_Large_Weights.DEFAULT)
-        transforms = DeepLabV3_MobileNet_V3_Large_Weights.COCO_WITH_VOC_LABELS_V1.transforms()
+    model = deeplabv3_mobilenet_v3_large(weights=DeepLabV3_MobileNet_V3_Large_Weights.DEFAULT)
+    transforms = DeepLabV3_MobileNet_V3_Large_Weights.COCO_WITH_VOC_LABELS_V1.transforms()
 
     model.eval()
 
@@ -63,15 +59,8 @@ def crop_to_square(frame):
     return square_frame
 
 
-
-
-# def replicate_and_arrange_frame(frame, scale=0.1):
-
-#     # Resize the individual copies
-#     small_frame = cv2.resize(frame, (int(frame.shape[1] * scale), int(frame.shape[0] * scale)))
-
 #assumes input frame is already cropped to a square
-def arrange_frames_circular(frame, scale=1): #if scale 1 works remove this after
+def arrange_frames_circular(frame, scale=1):
 
     # Original dimensions
     frame = cv2.resize(frame, (int(frame.shape[1] * scale), int(frame.shape[0] * scale))) #making frame replicates smaller
@@ -104,27 +93,20 @@ def arrange_frames_circular(frame, scale=1): #if scale 1 works remove this after
 
         # Place the rotated frame on the canvas
         canvas[top_left_y:top_left_y + height, top_left_x:top_left_x + width] = rotated_frame
-        print(canvas.size)
     return canvas
 
 
 def fade_in_effect(video_path, output_path, fade_in_seconds):
-    print("fade-in function sucessfully called")
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print("Error: Could not open video.")
         return
 
-    print("check1")
-
     fps = int(cap.get(cv2.CAP_PROP_FPS))
-    print("check2")
     fade_in_frames = fade_in_seconds * fps
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (int(cap.get(3)), int(cap.get(4))))
-    print("check3")
 
     current_frame = 0
     while True:
@@ -150,17 +132,13 @@ def fade_in_effect(video_path, output_path, fade_in_seconds):
 
     cap.release()
     out.release()
-    print("Fade-in effect applied")
 
 
 def fade_out_effect(video_path, output_path, fade_out_seconds):
-    print("fade out function succesfully called")
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print("Error: Could not open video.")
         return
 
-    print("check a")
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fade_out_start_frame = total_frames - fade_out_seconds * fps
@@ -169,7 +147,6 @@ def fade_out_effect(video_path, output_path, fade_out_seconds):
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(output_path, fourcc, fps, (int(cap.get(3)), int(cap.get(4))))
 
-    print("check b ")
     current_frame = 0
     while True:
         ret, frame = cap.read()
@@ -184,7 +161,6 @@ def fade_out_effect(video_path, output_path, fade_out_seconds):
             # Create a black frame
             black_frame = np.zeros(frame.shape, frame.dtype)
 
-            print("checkf")
             # Compute weighted sum of the black frame and the current frame
             faded_frame = cv2.addWeighted(frame, alpha, black_frame, beta, 0)
             out.write(faded_frame)
@@ -218,14 +194,10 @@ def video_inference_with_backgroundremoval(model_name: str, input_video_path: st
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 
-    #output_video is an object created by OpenCVs 'cv2.VideoWriter' class. Object encapsulates all the functionality neeed to write frames to a video file
-
     # Utilizing the width and height from the test squre frame to have dimensions match, multyplying by 3 since the circualr aranegeent will create a 3x3 grid
 
     output_video = cv2.VideoWriter(intermediate_output_path, fourcc, fps, (width * 3, height * 3), isColor=True) #creates a new video file in the specified format at the specified path [intermediate_output_path]
     #output_video will be saved in intermediate_output_path , which is a string representing the file location where video data will be written
-
-    ###cap = cv2.VideoCapture(input_video_path)
 
     #process each frame
     while True:
@@ -253,7 +225,6 @@ def video_inference_with_backgroundremoval(model_name: str, input_video_path: st
 
 #checking video duration for fade-in effect
 
-    ###fps = int(cap.get(cv2.CAP_PROP_FPS))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     duration = total_frames / fps
     cap.release()
@@ -267,17 +238,15 @@ def video_inference_with_backgroundremoval(model_name: str, input_video_path: st
 
     # Add original audio to the processed video and re-encode
     processed_clip = VideoFileClip(intermediate_output_path) #creates 'VideoFileClip' object from the file located at intermediate_output_path.
-    print("a")
+
     original_audio = VideoFileClip(input_video_path).audio
-    print("b")
+    
     final_clip = processed_clip.set_audio(original_audio)
-    print("c")
+    
     final_clip.write_videofile(final_output_path, codec='libx264', audio_codec='aac')
-    print("d")
 
     # Cleanup: Remove the intermediate video file
     os.remove(intermediate_output_path)
-    print("intermediate file removed, processing complete")
 
 
 

@@ -34,7 +34,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['POST']) #defines route for uploading files
-def upload_file(): #handles upload and processing og files
+def upload_file(): #handles upload and processing of files
     if 'file' not in request.files:
         return 'No file part', 400
     file = request.files['file']
