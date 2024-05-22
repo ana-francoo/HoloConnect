@@ -223,17 +223,8 @@ def video_inference_with_backgroundremoval(model_name: str, input_video_path: st
         if not ret:
             break
 
-#checking video duration for fade-in effect
-
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    duration = total_frames / fps
     cap.release()
     output_video.release()  #finalizes the video file writing process, ensuring file is closed properly and data is written properly
-
-    if duration > 7:
-        secondary_path = intermediate_output_path + ".tmp" #temporary for fade-in processing
-        fade_in_effect(intermediate_output_path, secondary_path, 4)
-        shutil.move(secondary_path, intermediate_output_path)
 
     # Add original audio to the processed video and re-encode
     processed_clip = VideoFileClip(intermediate_output_path) #creates 'VideoFileClip' object from the file located at intermediate_output_path.
