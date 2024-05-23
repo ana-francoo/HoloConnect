@@ -1,6 +1,7 @@
 ﻿# HoloConnect 👋: Hologram Video Generator
-
 As an international student, I often felt disconnected from my family and friends due to the physical distance. I wanted to reimagine the user experience and interaction of online communication to make it feel more real and personal. This inspired me to create HoloConnect, a web app that processes videos for holographic display to provide a more immersive and lifelike way of connecting with loved ones.
+
+[![Demo](https://img.youtube.com/vi/8fHARcOWop8/0.jpg)](https://www.youtube.com/watch?v=8fHARcOWop8)
 
 ### What it does
 HoloConnect allows users to upload any video or image from their files or camera roll. The app processes the media by removing the background and replicating the foreground in a circular axis, creating a Pepper's Ghost illusion when viewed through a hologram display prism. This makes the holographic experience feel realistic and engaging.
